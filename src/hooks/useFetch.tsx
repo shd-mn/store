@@ -3,14 +3,18 @@ import axios from 'axios';
 import {ProductTypes} from '../pages/Products/types';
 
 function useFetch(URL: string | any) {
-  const [data, setData] = useState<ProductTypes[] | any>([]);
+  const [data, setData] = useState<ProductTypes[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = async () => {
     try {
       const respone = await axios(URL);
-      setData(respone.data);
+      if (Array.isArray(respone.data)) {
+        setData(respone.data);
+      } else {
+        setData([respone.data]);
+      }
       setIsLoading(false);
     } catch (err: any) {
       // TODO: axios error type
@@ -23,7 +27,7 @@ function useFetch(URL: string | any) {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [URL]);
 
   return {data, isLoading, error};
 }
