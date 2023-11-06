@@ -1,20 +1,31 @@
 import React from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
 import Config from 'react-native-config';
+import {FlatList} from 'react-native';
 import {ProductTypes} from './types';
 
-import ProductCard from '../../components/ProductCard';
-import styles from './Products.style';
 import useFetch from '../../hooks/useFetch';
 import Loading from '../../components/common/Loading';
 import Error from '../../components/common/Error';
+import ProductCard from '../../components/ProductCard';
+import styles from './Products.style';
+
 let URL: string | any = Config.API_URL;
 
-function Products() {
+type PropTypes = {
+  navigation: {
+    navigate: (routeName: string, params?: any) => void;
+  };
+};
+
+function Products({navigation}: PropTypes) {
   const {data: products, isLoading, error} = useFetch(URL);
 
+  const handleProductSelect = (id: number) => {
+    navigation.navigate('DetailPage', {id});
+  };
+
   const renderData = ({item}: {item: ProductTypes}) => {
-    return <ProductCard product={item} />;
+    return <ProductCard product={item} onSelect={handleProductSelect} />;
   };
 
   if (isLoading) {
@@ -25,9 +36,12 @@ function Products() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList data={products} renderItem={renderData} />
-    </SafeAreaView>
+    <FlatList
+      style={styles.container}
+      data={products}
+      renderItem={renderData}
+      keyExtractor={(item: ProductTypes) => item.id.toString()}
+    />
   );
 }
 
