@@ -3,18 +3,40 @@
  */
 
 import React from 'react';
-import {SafeAreaView, ScrollView, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Products from './pages/Products';
+import Detail from './pages/Detail';
 
-import {Header} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   return (
-    <SafeAreaView>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <Header />
-        <View></View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#60a5fa',
+          },
+          headerTintColor: 'white',
+        }}>
+        <Stack.Screen
+          name="ProductsPage"
+          component={Products}
+          options={{
+            title: 'Shop',
+          }}
+        />
+        <Stack.Screen
+          name="DetailPage"
+          component={Detail}
+          options={{
+            title: 'Detail',
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
