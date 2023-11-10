@@ -7,8 +7,8 @@ import Error from '../../components/common/Error';
 
 import styles from './Detail.style';
 type PropTypes = {
-  route: {
-    params: {
+  route?: {
+    params?: {
       id: string | number;
     };
   };
@@ -17,7 +17,7 @@ type PropTypes = {
 let URL: string | any = Config.API_URL;
 
 function Detail({route}: PropTypes) {
-  const {id} = route.params;
+  const {id} = route?.params || {};
   const {data: product, isLoading, error} = useFetch(`${URL}/${id}`);
 
   if (isLoading) {
