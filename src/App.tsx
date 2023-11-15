@@ -8,6 +8,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Products from './pages/Products';
 import Detail from './pages/Detail';
 import MainProvider from './redux/Provider';
+import Login from './pages/Login';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ function App(): JSX.Element {
             },
             headerTintColor: 'white',
           }}>
+          <Stack.Screen
+            name="LoginPage"
+            component={Login}
+            options={{title: 'Login'}}
+          />
           <Stack.Screen
             name="ProductsPage"
             component={Products}
