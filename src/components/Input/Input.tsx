@@ -5,14 +5,18 @@ import styles from './Input.style';
 
 type PropTypes = {
   placeholder: string;
-  onType: () => void;
+  onType: (name: string) => void;
+  value: string;
+  secureText?: boolean;
 };
-function Input({placeholder, onType}: PropTypes) {
+function Input({placeholder, onType, value, secureText = false}: PropTypes) {
   return (
     <TextInput
       style={styles.textInput}
       placeholder={placeholder}
       onChangeText={onType}
+      value={value}
+      secureTextEntry={secureText}
     />
   );
 }
