@@ -8,16 +8,26 @@ type PropTypes = {
   onType: (name: string) => void;
   value: string;
   secureText?: boolean;
+  icon?: React.JSX.Element;
 };
-function Input({placeholder, onType, value, secureText = false}: PropTypes) {
+function Input({
+  placeholder,
+  onType,
+  value,
+  secureText = false,
+  icon,
+}: PropTypes) {
   return (
-    <TextInput
-      style={styles.textInput}
-      placeholder={placeholder}
-      onChangeText={onType}
-      value={value}
-      secureTextEntry={secureText}
-    />
+    <>
+      <TextInput
+        style={styles.textInput}
+        placeholder={placeholder}
+        onChangeText={onType}
+        value={value}
+        secureTextEntry={secureText}
+      />
+      {icon}
+    </>
   );
 }
 

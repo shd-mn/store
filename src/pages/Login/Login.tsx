@@ -1,8 +1,9 @@
 import React from 'react';
-import {SafeAreaView, View, Button, Image} from 'react-native';
+import {SafeAreaView, View, Image, Button} from 'react-native';
 import {Formik} from 'formik';
 import styles from './Login.style';
 import Input from '../../components/Input';
+import {LockIcon, UserIcon} from '../../icons';
 
 function Login() {
   const handleSubmitForm = (value: any) => {
@@ -25,14 +26,16 @@ function Login() {
               placeholder="Username"
               onType={handleChange('username')}
               value={values.username}
+              icon={<UserIcon />}
             />
             <Input
               placeholder="Password"
               onType={handleChange('password')}
               value={values.password}
               secureText={true}
+              icon={<LockIcon />}
             />
-            <Button title="Sign In" onPress={handleSubmit} />
+            <Button title="Sign In" onPress={() => handleSubmit} />
           </View>
         )}
       </Formik>
