@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput} from 'react-native';
+import {View, TextInput} from 'react-native';
 
 import styles from './Input.style';
 
@@ -18,7 +18,7 @@ function Input({
   icon,
 }: PropTypes) {
   return (
-    <>
+    <View style={styles.container}>
       <TextInput
         style={styles.textInput}
         placeholder={placeholder}
@@ -26,8 +26,8 @@ function Input({
         value={value}
         secureTextEntry={secureText}
       />
-      {icon}
-    </>
+      {icon && icon}
+    </View>
   );
 }
 
