@@ -9,7 +9,7 @@ import Error from '../../components/common/Error';
 import ProductCard from '../../components/ProductCard';
 import styles from './Products.style';
 
-let URL: string | any = Config.API_URL;
+let URL: string | any = Config.API_PRODUCTS_URL;
 
 type PropTypes = {
   navigation: {

@@ -14,7 +14,7 @@ type PropTypes = {
   };
 };
 
-let URL: string | any = Config.API_URL;
+let URL: string | any = Config.API_PRODUCTS_URL;
 
 function Detail({route}: PropTypes) {
   const {id} = route?.params || {};

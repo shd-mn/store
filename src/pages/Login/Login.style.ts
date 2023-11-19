@@ -7,6 +7,14 @@ export default StyleSheet.create({
     paddingTop: 20,
     backgroundColor: '#b0d2fd',
   },
+  info: {
+    // flex: 1,
+    position: 'absolute',
+    right: 'auto',
+  },
+  infoContenet: {
+    position: 'absolute',
+  },
   imageBox: {
     flex: 2,
     alignItems: 'center',
