@@ -1,11 +1,11 @@
 import {useState, useEffect} from 'react';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import {ProductTypes} from '../pages/Products/types';
 
 function useFetch(URL: string | any) {
   const [data, setData] = useState<ProductTypes[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,14 +16,28 @@ function useFetch(URL: string | any) {
         } else {
           setData([respone.data]);
         }
-        setIsLoading(false);
       } catch (err: any) {
-        // TODO: axios error type
-        console.log(err.message);
-        setError(err.message);
+        handleAuthError(err);
+      } finally {
         setIsLoading(false);
       }
     };
+
+    const handleAuthError = (err: any): void => {
+      if (axios.isAxiosError(err)) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          setError(`Server error: ${axiosError.response.status}`);
+        } else if (axiosError.request) {
+          setError('Network error');
+        } else {
+          setError(`Error: ${axiosError.message}`);
+        }
+      } else {
+        setError(`Error: ${String(err.message)}`);
+      }
+    };
+
     fetchData();
   }, [URL]);
 

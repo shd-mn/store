@@ -35,7 +35,7 @@ function useAuth(): AuthHookResult {
     }
   };
 
-  const handleAuthError = (err: unknown): void => {
+  const handleAuthError = (err: any): void => {
     if (axios.isAxiosError(err)) {
       const axiosError = err as AxiosError;
       if (axiosError.response) {
@@ -46,7 +46,7 @@ function useAuth(): AuthHookResult {
         setError(`Error: ${axiosError.message}`);
       }
     } else {
-      setError(`Error: ${String(err)}`);
+      setError(`Error: ${String(err.message)}`);
     }
   };
 

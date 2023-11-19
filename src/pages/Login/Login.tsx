@@ -52,7 +52,7 @@ function Login({navigation}: PropTypes) {
   };
 
   if (error) {
-    Alert.alert('Store', 'username or password is incorrect');
+    Alert.alert('Store', error);
   }
 
   return (
