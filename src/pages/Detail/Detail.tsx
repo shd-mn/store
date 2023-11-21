@@ -14,11 +14,11 @@ type PropTypes = {
   };
 };
 
-let URL: string | any = Config.API_PRODUCTS_URL;
+let URL: string | any = Config.API_URL;
 
 function Detail({route}: PropTypes) {
   const {id} = route?.params || {};
-  const {data: product, isLoading, error} = useFetch(`${URL}/${id}`);
+  const {data: product, isLoading, error} = useFetch(`${URL}/products/${id}`);
 
   if (isLoading) {
     return <Loading />;

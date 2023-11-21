@@ -8,6 +8,8 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
+
 import {Formik} from 'formik';
 import {object, string} from 'yup';
 import Input from '../../components/Input';
@@ -15,6 +17,8 @@ import Icon from 'react-native-vector-icons/Feather';
 import styles from './Login.style';
 import Config from 'react-native-config';
 import useAuth from '../../auth/useAuth';
+import useFetchUser from '../../hooks/useFetchUser';
+import {getUser} from '../../redux/features/userSlice';
 
 type PropTypes = {
   navigation: {
@@ -22,17 +26,21 @@ type PropTypes = {
   };
 };
 
-const URL: string | undefined = Config.API_AUTH_URL;
+const AUTH_URL: string | undefined = Config.API_AUTH_URL;
+const URL: string | undefined = Config.API_URL;
 
 function Login({navigation}: PropTypes) {
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
   const {data, isLoading, error, auth} = useAuth();
+  const {data: user, fetchUsers} = useFetchUser();
 
   useEffect(() => {
-    if (data?.token) {
+    if (data?.token && user?.length > 0) {
+      dispatch(getUser(user));
       navigation.navigate('ProductsPage');
     }
-  }, [data?.token, navigation]);
+  }, [data?.token, navigation, user, dispatch]);
 
   const handleSubmitForm = async (values: any) => {
     try {
@@ -45,7 +53,8 @@ function Login({navigation}: PropTypes) {
 
       await schema.validate(values);
 
-      auth(`${URL}/login`, values);
+      auth(`${AUTH_URL}/login`, values);
+      fetchUsers(`${URL}/users`, values);
     } catch (err: any) {
       Alert.alert('Validation Error', err.message);
     }
@@ -74,7 +83,7 @@ function Login({navigation}: PropTypes) {
         />
       </View>
       <Formik
-        initialValues={{username: '', password: ''}}
+        initialValues={{username: 'mor_2314', password: '83r5^_'}}
         onSubmit={handleSubmitForm}>
         {({handleChange, handleSubmit, values}) => (
           <View style={styles.inputContainer}>
