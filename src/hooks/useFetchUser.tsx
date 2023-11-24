@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import axios from 'axios';
 import {UserTypes} from '../pages/Products/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type AuthData = {
   username: string;
@@ -21,6 +22,7 @@ function useFetchUser() {
             item.password === values.password,
         );
         setData(user);
+        await AsyncStorage.setItem('user', JSON.stringify(user));
       }
     } catch (err: any) {
       setError(err.message);
