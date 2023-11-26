@@ -1,7 +1,3 @@
-/**
- * @format
- */
-
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -14,13 +10,13 @@ import ProfileButton from './components/common/ProfileButton';
 import Profile from './pages/Profile/Profile';
 import {useDispatch, useSelector} from 'react-redux';
 import {setSignedIn} from './redux/features/userSlice';
+import {RootState} from './redux/store';
 
 const Stack = createNativeStackNavigator();
 
 function Routes(): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
-  const isSignedIn = useSelector((state: any) => state.user.isSignedIn);
-  console.log(isSignedIn);
+  const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,13 +27,11 @@ function Routes(): React.JSX.Element {
           dispatch(setSignedIn(true));
         }
       } catch (e) {
-        // save error
         console.log(`save error ${e}`);
       } finally {
         setIsLoading(false);
       }
     };
-
     getUserValue();
   }, [dispatch, isSignedIn]);
 
@@ -54,7 +48,6 @@ function Routes(): React.JSX.Element {
             backgroundColor: '#60a5fa',
           },
           headerTintColor: 'white',
-          headerRight: ProfileButton,
         }}>
         {isSignedIn ? (
           <>
@@ -63,10 +56,24 @@ function Routes(): React.JSX.Element {
               component={Products}
               options={{
                 title: 'Shop',
+                headerRight: ProfileButton,
               }}
             />
-            <Stack.Screen name="Detail" component={Detail} />
-            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen
+              name="Detail"
+              component={Detail}
+              options={{
+                headerRight: ProfileButton,
+              }}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+              options={{
+                title: 'Shop',
+                headerRight: ProfileButton,
+              }}
+            />
           </>
         ) : (
           <Stack.Screen
