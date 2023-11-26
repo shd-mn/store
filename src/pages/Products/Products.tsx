@@ -21,7 +21,7 @@ function Products({navigation}: PropTypes) {
   const {data: products, isLoading, error} = useFetch(`${URL}/products`);
 
   const handleProductSelect = (id: number) => {
-    navigation.navigate('DetailPage', {id});
+    navigation.navigate('Detail', {id});
   };
 
   const renderData = ({item}: {item: ProductTypes}) => {

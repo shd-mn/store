@@ -17,30 +17,21 @@ import Icon from 'react-native-vector-icons/Feather';
 import styles from './Login.style';
 import Config from 'react-native-config';
 import useAuth from '../../auth/useAuth';
-import useFetchUser from '../../hooks/useFetchUser';
-import {getUser} from '../../redux/features/userSlice';
-
-type PropTypes = {
-  navigation: {
-    navigate: (name: string) => void;
-  };
-};
+import {setSignedIn} from '../../redux/features/userSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AUTH_URL: string | undefined = Config.API_AUTH_URL;
-const URL: string | undefined = Config.API_URL;
 
-function Login({navigation}: PropTypes) {
+function Login() {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const {data, isLoading, error, auth} = useAuth();
-  const {data: user, fetchUsers} = useFetchUser();
 
   useEffect(() => {
-    if (data?.token && user?.length > 0) {
-      dispatch(getUser(user));
-      navigation.navigate('ProductsPage');
+    if (data?.token) {
+      dispatch(setSignedIn(true));
     }
-  }, [data?.token, navigation, user, dispatch]);
+  }, [data?.token, dispatch]);
 
   const handleSubmitForm = async (values: any) => {
     try {
@@ -54,14 +45,14 @@ function Login({navigation}: PropTypes) {
       await schema.validate(values);
 
       auth(`${AUTH_URL}/login`, values);
-      fetchUsers(`${URL}/users`, values);
+      AsyncStorage.setItem('user', JSON.stringify(values));
     } catch (err: any) {
       Alert.alert('Validation Error', err.message);
     }
   };
 
   if (error) {
-    Alert.alert('Store', error);
+    Alert.alert('Store', 'user name or password is incorrect');
   }
 
   return (
