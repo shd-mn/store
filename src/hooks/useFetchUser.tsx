@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import axios from 'axios';
 import {UserTypes} from '../pages/Products/types';
 
@@ -7,7 +7,7 @@ function useFetchUser() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const fetchUsers = async (URL: string | any) => {
+  const fetchUsers = useCallback(async (URL: string | any) => {
     try {
       const respone = await axios<UserTypes[]>(URL);
       if (respone.data) {
@@ -18,7 +18,7 @@ function useFetchUser() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   return {data, isLoading, error, fetchUsers};
 }
